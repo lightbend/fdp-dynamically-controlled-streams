@@ -9,7 +9,7 @@ An enterprise has multiple service that are being built independently, with diff
 
 **Have each service produce data (as it changes) to the “control” stream for the stream processing to consume and use as a “state” that can be used by the data stream to produce results.** 
 
-##Architecture
+## Architecture
 
 The overall architecture is based on the Log-centric execution architecture introduced by [Jay Kreps](https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying).
 
@@ -21,7 +21,7 @@ With the log centric execution architecture in place, a dynamically controlled s
 
 ![](images/DynamicallyControlledStreams.png "Dynamically controlled streams")
 
-##What is in this project?
+## What is in this project?
 
 The project has several modules:
 * akkastreamcontroller - implementation using Akka Streams
