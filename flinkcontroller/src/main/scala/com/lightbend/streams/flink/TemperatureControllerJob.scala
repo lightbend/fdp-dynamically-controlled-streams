@@ -87,7 +87,7 @@ object TemperatureControllerJob {
     // always read the Kafka topic from the current location
     sensorKafkaProps.setProperty("auto.offset.reset", "latest")
 
-    // Model
+    // Settings
     val controlKafkaProps = new Properties
     controlKafkaProps.setProperty("bootstrap.servers", kafkaConfig.brokers)
     controlKafkaProps.setProperty("group.id", kafkaConfig.temperaturesetgroup)
@@ -102,7 +102,7 @@ object TemperatureControllerJob {
       sensorKafkaProps
     )
 
-    // Control
+    // Setting
     val controlConsumer = new FlinkKafkaConsumer011[Array[Byte]](
       kafkaConfig.temperaturesettopic,
       new ByteArraySchema,
