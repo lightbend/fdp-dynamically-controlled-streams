@@ -53,7 +53,7 @@ object TemperatureControllerJob {
       val env = StreamExecutionEnvironment.createRemoteEnvironment("localhost", flinkCluster.getLeaderRPCPort)
        // Build Graph
       buildGraph(env)
-      val jobGraph = env.getStreamGraph.getJobGraph
+      val jobGraph = env.getStreamGraph.getJobGraph()
       // Submit to the server and wait for completion
       flinkCluster.submitJobAndWait(jobGraph, false)
     } catch {
@@ -65,7 +65,7 @@ object TemperatureControllerJob {
   def executeLocal() : Unit = {
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     buildGraph(env)
-    System.out.println("[info] Job ID: " + env.getStreamGraph.getJobGraph.getJobID)
+    System.out.println("[info] Job ID: " + env.getStreamGraph.getJobGraph().getJobID)
     env.execute()
   }
 

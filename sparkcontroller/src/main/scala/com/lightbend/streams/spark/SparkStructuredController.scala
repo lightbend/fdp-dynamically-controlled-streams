@@ -35,7 +35,7 @@ object SparkStructuredController {
 
     // Message parsing
     // In order to be able to uninon both streams we are using here combined format
-    sparkSession.udf.register("deserializeData", (data: Array[Byte]) =>  DataModelTransform.sensorFromByteArray(data))
+    sparkSession.udf.register("deserializeData", (data: Array[Byte]) =>  DataModelTransform.sensorFromByteArrayUnified(data))
     sparkSession.udf.register("deserializeControl", (data: Array[Byte]) => DataModelTransform.controlFromByteArrayUnified(data))
 
     // Create data stream

@@ -10,7 +10,7 @@ object Versions {
   val kafkaVersion          = "2.0.0"
   val Curator               = "4.0.0"
 
-  val flinkVersion          = "1.6.1"
+  val flinkVersion          = "1.6.2"
 
   val sparkVersion          = "2.4.0"
 

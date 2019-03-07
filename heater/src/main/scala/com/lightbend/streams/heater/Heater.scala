@@ -68,6 +68,7 @@ object Heater {
 
   def pause(timeInterval : Duration): Unit = Thread.sleep(timeInterval.toMillis)
 
+  // Changing desired state
   def controltemperature(sender : MessageSender[Array[Byte], Array[Byte]]) : Future[Unit] = Future{
     var desired = 45.0
     val controlInterval = 10.minute
@@ -85,6 +86,7 @@ object Heater {
   }
 }
 
+// Control message listener
 class ControlProcessor extends RecordProcessorTrait[Array[Byte], Array[Byte]] {
 
   import Heater._

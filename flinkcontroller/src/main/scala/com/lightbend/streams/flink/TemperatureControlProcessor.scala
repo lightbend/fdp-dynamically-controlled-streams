@@ -12,9 +12,12 @@ import scala.collection.mutable.Map
 
 class TemperatureControlProcessor extends CoProcessFunction[SensorData, TemperatureControl, HeaterControl]{
 
+  // Current setting - state
   var currentSettings : ValueState[Option[TemperatureControl]] = _
+  // Previous command
   private val previousCommands = Map[Int, Int]()
 
+  // Initialize, create state
   override def open(parameters: Configuration): Unit = {
 
     val currentSettingDesc = new ValueStateDescriptor[Option[TemperatureControl]](
@@ -23,7 +26,7 @@ class TemperatureControlProcessor extends CoProcessFunction[SensorData, Temperat
     currentSettings = getRuntimeContext.getState(currentSettingDesc)
   }
 
-
+  // New temperature setting
   override def processElement2(control: TemperatureControl, ctx: CoProcessFunction[SensorData, TemperatureControl, HeaterControl]#Context, out: Collector[HeaterControl]): Unit = {
 
     if(currentSettings.value == null) currentSettings.update(None)
@@ -32,6 +35,7 @@ class TemperatureControlProcessor extends CoProcessFunction[SensorData, Temperat
     currentSettings.update (Some(control))
   }
 
+  // Process data
   override def processElement1(record: SensorData, ctx: CoProcessFunction[SensorData, TemperatureControl, HeaterControl]#Context, out: Collector[HeaterControl]): Unit = {
 
     if(currentSettings.value == null) currentSettings.update(None)

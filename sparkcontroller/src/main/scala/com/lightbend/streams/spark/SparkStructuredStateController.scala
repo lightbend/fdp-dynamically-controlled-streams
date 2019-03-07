@@ -63,6 +63,7 @@ object SparkStructuredStateControllerl {
       }).as[InternalHeaterControl].filter(_.sensorID >= 0)
       .map(DataModelTransform.toByteArray(_))
 
+    // Start continious query writing result to kafka
     var sensorQuery = sensorstream
       .writeStream
       .outputMode("update")
@@ -77,6 +78,7 @@ object SparkStructuredStateControllerl {
     val modelsStream = KafkaUtils.createDirectStream[Array[Byte], Array[Byte]](ssc,PreferConsistent,
       Subscribe[Array[Byte], Array[Byte]](Set(kafkaConfig.temperaturesettopic),kafkaParams))
 
+    // Control stream
     modelsStream.foreachRDD( rdd =>
       if (!rdd.isEmpty()) {
         val settings = rdd.map(_.value).collect
@@ -113,9 +115,11 @@ object SparkStructuredStateControllerl {
   }
 }
 
+// Process data
 class TemperatureController{
   var previousControl = -1
 
+  // Calculate control
   def control(data: SensorData, controlSetting : Option[TemperatureControl]) : InternalHeaterControl = {
     controlSetting match {
       case Some (setting) =>
